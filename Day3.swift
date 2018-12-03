@@ -60,15 +60,13 @@ struct FabricPiece {
             for x in claim.rect.enumeratedX() {
                 guard noOverlaps else { break }
                 for y in claim.rect.enumeratedY() {
-                    if !inches[y][x].elementsEqual([claim.id]) {
+                    guard inches[y][x] == Set(arrayLiteral: claim.id) else {
                         noOverlaps = false
                         break
                     }
                 }
             }
-            if noOverlaps {
-                return claim.id
-            }
+            if noOverlaps { return claim.id }
         }
         return nil
     }
