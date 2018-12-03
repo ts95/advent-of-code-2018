@@ -1,3 +1,5 @@
+import Foundation
+
 func deviceFrequency(applying changes: [Int]) -> Int {
     return changes.reduce(0, +)
 }

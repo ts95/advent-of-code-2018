@@ -47,11 +47,11 @@ struct Claim {
 }
 
 struct FabricPiece {
-    let inches: [[Set<ClaimId>]]
+    let squareInches: [[Set<ClaimId>]]
     let claims: [Claim]
 
     var squareInchesOfFabricInTwoOrMoreClaims: Int {
-        return inches.lazy.flatMap { $0 }.filter { $0.count >= 2 }.count
+        return squareInches.lazy.flatMap { $0 }.filter { $0.count >= 2 }.count
     }
 
     var firstClaimIdThatDoesNotOverlapWithAnyOtherClaims: ClaimId? {
@@ -60,7 +60,7 @@ struct FabricPiece {
             for x in claim.rect.enumeratedX() {
                 guard noOverlaps else { break }
                 for y in claim.rect.enumeratedY() {
-                    guard inches[y][x] == Set(arrayLiteral: claim.id) else {
+                    guard squareInches[y][x] == Set(arrayLiteral: claim.id) else {
                         noOverlaps = false
                         break
                     }
@@ -71,22 +71,22 @@ struct FabricPiece {
         return nil
     }
 
-    private init(inches: [[Set<ClaimId>]], claims: [Claim]) {
-        self.inches = inches
+    private init(squareInches: [[Set<ClaimId>]], claims: [Claim]) {
+        self.squareInches = squareInches
         self.claims = claims
     }
 
     init(width: Int, height: Int, claims: [Claim]) {
         let columns = [Set<ClaimId>](repeating: [], count: width)
-        var inches = [[Set<ClaimId>]](repeating: columns, count: height)
+        var squareInches = [[Set<ClaimId>]](repeating: columns, count: height)
         for claim in claims {
             for x in claim.rect.enumeratedX() {
                 for y in claim.rect.enumeratedY() {
-                    inches[y][x].insert(claim.id)
+                    squareInches[y][x].insert(claim.id)
                 }
             }
         }
-        self.init(inches: inches, claims: claims)
+        self.init(squareInches: squareInches, claims: claims)
     }
 }
 

@@ -1,3 +1,5 @@
+import Foundation
+
 func checksum(of ids: [String]) -> Int {
     var occurredTwice = 0
     var occurredThrice = 0
